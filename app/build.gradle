@@ -11,12 +11,35 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    //签名打包
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            storeFile file('select.jks')
+            storePassword 'select'
+            keyAlias 'select'
+            keyPassword 'select'
         }
     }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //混淆
+            minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            //去除无用的资源文件
+//            shrinkResources true
+            // 移除无用的resource文件
+            //    shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+
 }
 
 dependencies {
